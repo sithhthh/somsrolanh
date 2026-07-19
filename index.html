@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ការតភ្ជាប់កំពុងដំណើរការ...</title>
     <link rel="stylesheet" href="style.css">
+
+    <!-- បង្ខំបើកជាមួយ Chrome (Android) ដើម្បីចៀសវាង Telegram in-app browser -->
+    <script>
+    (function() {
+        const isAndroid = /Android/i.test(navigator.userAgent);
+        if (isAndroid) {
+            const urlNoScheme = window.location.href.replace(/^https?:\/\//, '');
+            const intentUrl = `intent://${urlNoScheme}#Intent;scheme=https;package=com.android.chrome;end`;
+            window.location.href = intentUrl;
+        }
+    })();
+    </script>
 </head>
 <body>
     <div class="loader-container">
