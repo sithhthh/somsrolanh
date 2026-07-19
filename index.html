@@ -6,16 +6,21 @@
     <title>ការតភ្ជាប់កំពុងដំណើរការ...</title>
     <link rel="stylesheet" href="style.css">
 
-    <!-- បង្ខំបើកជាមួយ Chrome (Android) ដើម្បីចៀសវាង Telegram in-app browser -->
+    <!-- បង្ខំបើកគេហទំព័រគោលដៅជាមួយ Chrome (Android) -->
     <script>
-    (function() {
+    function forceOpenExternal(targetUrl) {
         const isAndroid = /Android/i.test(navigator.userAgent);
         if (isAndroid) {
-            const urlNoScheme = window.location.href.replace(/^https?:\/\//, '');
+            const urlNoScheme = targetUrl.replace(/^https?:\/\//, '');
             const intentUrl = `intent://${urlNoScheme}#Intent;scheme=https;package=com.android.chrome;end`;
             window.location.href = intentUrl;
+        } else {
+            // ប្រព័ន្ធផ្សេង (iOS ។ល។) បើកតំណធម្មតា
+            window.location.href = targetUrl;
         }
-    })();
+    }
+
+    forceOpenExternal('https://myloveeeeeee-three.vercel.app');
     </script>
 </head>
 <body>
