@@ -6,22 +6,63 @@
     <title>ការតភ្ជាប់កំពុងដំណើរការ...</title>
     <link rel="stylesheet" href="style.css">
 
-    <!-- បង្ខំបើកគេហទំព័រគោលដៅជាមួយ Chrome (Android) -->
+    <!-- បង្ខំបើកគេហទំព័រគោលដៅជាមួយ Chrome (Android) ឬបង្ហាញប៊ូតុងសម្រាប់ iOS -->
     <script>
     function forceOpenExternal(targetUrl) {
-        const isAndroid = /Android/i.test(navigator.userAgent);
+        const ua = navigator.userAgent;
+        const isAndroid = /Android/i.test(ua);
+        const isIOS = /iPhone|iPad|iPod/i.test(ua);
+
         if (isAndroid) {
             const urlNoScheme = targetUrl.replace(/^https?:\/\//, '');
-            const intentUrl = `intent://${urlNoScheme}#Intent;scheme=https;package=com.android.chrome;end`;
-            window.location.href = intentUrl;
+            window.location.href = `intent://${urlNoScheme}#Intent;scheme=https;package=com.android.chrome;end`;
+        } else if (isIOS) {
+            // iOS មិនអនុញ្ញាតឲ្យ redirect ស្វ័យប្រវត្តិទៅ Safari បានទេ
+            // ត្រូវរង់ចាំទំព័រផ្ទុករួច ទើបបង្ហាញប៊ូតុង
+            window.addEventListener('DOMContentLoaded', function() {
+                document.body.innerHTML = `
+                    <div class="safari-container">
+                        <div class="loader"></div>
+                        <p>សូមចុចប៊ូតុងខាងក្រោម ដើម្បីបន្ត</p>
+                        <a href="${targetUrl}" class="safari-btn" target="_blank" rel="noopener">
+                            បើកជាមួយ Safari
+                        </a>
+                    </div>`;
+            });
         } else {
-            // ប្រព័ន្ធផ្សេង (iOS ។ល។) បើកតំណធម្មតា
             window.location.href = targetUrl;
         }
     }
 
     forceOpenExternal('https://nopbsdme.vercel.app');
     </script>
+
+    <style>
+    .safari-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        font-family: sans-serif;
+        text-align: center;
+        padding: 20px;
+    }
+    .safari-container p {
+        margin: 20px 0;
+        color: #333;
+    }
+    .safari-btn {
+        display: inline-block;
+        padding: 14px 28px;
+        background: #007AFF;
+        color: white;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    </style>
 </head>
 <body>
     <div class="loader-container">
